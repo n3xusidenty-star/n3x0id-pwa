@@ -1,1 +1,48 @@
-<!-- index.html de tutorial primer cliente -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N3X0 ID - PWA</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <h1>Bienvenido a N3X0 ID</h1>
+
+    <!-- Tutorial primer cliente -->
+    <div id="tutorial">
+      <p>Este es un tutorial breve para el primer cliente.</p>
+      <ol>
+        <li>Escanea el casco con tu teléfono.</li>
+        <li>Crea tu usuario y contraseña.</li>
+        <li>Ingresa tus datos de contacto y médicos.</li>
+      </ol>
+      <video src="tutorial.mp4" controls width="300"></video>
+    </div>
+
+    <!-- Información del cliente (se muestra después del registro) -->
+    <div id="info-cliente" style="display:none;">
+      <button id="ver-perfil">Ver perfil completo</button>
+      <button id="modo-emergencia">Modo emergencia</button>
+      <button id="actualizar-info">Actualizar información</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Ejemplo simple de detección de idioma del navegador
+    const userLang = navigator.language || navigator.userLanguage;
+    if(userLang.startsWith('en')){
+      document.querySelector('h1').textContent = 'Welcome to N3X0 ID';
+      document.querySelector('#tutorial p').textContent = 'This is a short tutorial for first-time users.';
+      document.querySelector('#tutorial li:nth-child(1)').textContent = 'Scan the helmet with your phone.';
+      document.querySelector('#tutorial li:nth-child(2)').textContent = 'Create your username and password.';
+      document.querySelector('#tutorial li:nth-child(3)').textContent = 'Enter your contact and medical info.';
+      document.querySelector('#ver-perfil').textContent = 'View full profile';
+      document.querySelector('#modo-emergencia').textContent = 'Emergency mode';
+      document.querySelector('#actualizar-info').textContent = 'Update info';
+    }
+  </script>
+</body>
+</html>
