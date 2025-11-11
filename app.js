@@ -1,0 +1,1 @@
+// app.js multilenguaje universal
