@@ -53,13 +53,15 @@
   </style>
 </head>
 <body>
-  <!-- Este div es obligatorio para que el script inserte el contenido -->
+  <!-- Contenedor obligatorio para insertar contenido -->
   <div id="content" class="card"></div>
 
   <script>
     window.onload = function() {
+      // Detectar idioma del dispositivo
       var lang = navigator.language.startsWith("es") ? "es" : "en";
 
+      // Textos bilingües
       var t = {
         en: {
           welcome: "Welcome to N3X0 ID!",
@@ -83,19 +85,31 @@
         }
       };
 
+      // Detectar parámetros de URL
       var params = new URLSearchParams(window.location.search);
       var isFirst = params.get("firstTime") === "true";
       var token = params.get("token");
       var content = document.getElementById("content");
       var txt = t[lang];
 
-      // Lógica de renderizado
+      // Renderizar según si es primer cliente o casco registrado
       if (!params.toString() || isFirst) {
+        // Mostrar texto primero
         content.innerHTML =
           "<h2>" + txt.welcome + "</h2>" +
           "<p>" + txt.setup + "</p>" +
-          "<video controls src='tutorial.mp4'></video>" +
           "<button onclick=\"location.href='index.html'\">" + txt.create + "</button>";
+
+        // Cargar video después de mostrar texto
+        setTimeout(function() {
+          var videoEl = document.createElement("video");
+          videoEl.src = "tutorial.mp4";
+          videoEl.controls = true;
+          videoEl.style.width = "100%";
+          videoEl.style.borderRadius = "10px";
+          videoEl.style.margin = "20px 0";
+          content.appendChild(videoEl);
+        }, 100); // espera mínima para renderizar el texto
       } else {
         content.innerHTML =
           "<h2>" + txt.registered + "</h2>" +
