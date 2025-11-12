@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>N3X0 ID - Login</title>
   <style>
-    /* Reset básico */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: "Poppins", sans-serif;
       background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
@@ -17,8 +14,9 @@
       align-items: center;
       justify-content: flex-start;
       min-height: 100vh;
-      padding: 20px;
+      margin: 0;
       text-align: center;
+      padding: 20px;
     }
 
     .card {
@@ -28,33 +26,21 @@
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
-      width: 100%;
-      margin-top: 60px;
-    }
-
-    h2 {
-      font-size: 1.8em;
-      margin-bottom: 15px;
-    }
-
-    p {
       margin-bottom: 20px;
-      font-size: 1em;
-      color: #ccc;
+      z-index: 2;
+      position: relative;
     }
 
     input {
-      display: block;
-      width: 90%;
-      margin: 10px auto;
+      width: 100%;
       padding: 12px;
+      margin: 10px 0;
       border-radius: 8px;
       border: none;
-      font-size: 1em;
     }
 
     button {
-      margin: 15px 0;
+      margin: 10px 0;
       padding: 12px 24px;
       border: none;
       border-radius: 8px;
@@ -63,61 +49,22 @@
       font-weight: 600;
       cursor: pointer;
       transition: transform 0.2s;
-      font-size: 1em;
+      width: 100%;
     }
 
     button:hover {
       transform: scale(1.05);
-    }
-
-    a {
-      color: #00e1ff;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="card">
     <h2>Login</h2>
-    <p>Enter your credentials to access your helmet info:</p>
-    <input type="email" placeholder="Email" id="email" />
-    <input type="password" placeholder="Password" id="password" />
-    <button onclick="loginUser()">Login</button>
-    <p>Don't have an account? <a href="register.html">Create Account</a></p>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="secret" placeholder="Secret Code">
+    <button id="loginBtn">Login</button>
   </div>
 
-  <script>
-    function loginUser() {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      if (!email || !password) {
-        alert("Please enter both email and password.");
-        return;
-      }
-
-      const stored = localStorage.getItem("n3x0_user");
-      if (!stored) {
-        alert("No account found. Please register first.");
-        location.href = "register.html";
-        return;
-      }
-
-      const user = JSON.parse(stored);
-
-      if (user.email === email && user.password === password) {
-        alert("Login successful!");
-        // Redirige a pantalla de casco registrado, usando un token de prueba
-        location.href = `t.html?firstTime=false&token=`;
-      } else {
-        alert("Incorrect email or password.");
-      }
-    }
-  </script>
+  <script src="auth.js"></script>
 </body>
 </html>
