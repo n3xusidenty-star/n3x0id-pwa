@@ -1,0 +1,16 @@
+{
+  "chips": [
+    {"uid": "04A5EC434F6181", "secret": "ABC123"},
+    {"uid": "04A5EC434F6182", "secret": "DEF456"},
+    {"uid": "04A5EC434F6183", "secret": "GHI789"}
+  ],
+  "users": [
+    {
+      "uid": "04A5EC434F6181",
+      "name": "Franklin Brown",
+      "email": "franklin@example.com",
+      "phone": "0412 6442173",
+      "emergency": "No allergies"
+    }
+  ]
+}
