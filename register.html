@@ -18,7 +18,6 @@
       text-align: center;
       padding: 20px;
     }
-
     .card {
       background: rgba(255,255,255,0.08);
       padding: 30px 40px;
@@ -27,31 +26,22 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
-      z-index: 2;
-      position: relative;
     }
-
-    input {
+    input, button {
       width: 100%;
+      margin: 10px 0;
       padding: 12px;
-      margin: 10px 0;
       border-radius: 8px;
       border: none;
+      font-size: 1em;
     }
-
     button {
-      margin: 10px 0;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
       background: linear-gradient(90deg, #00e1ff, #00ffa6);
       color: #000;
       font-weight: 600;
       cursor: pointer;
       transition: transform 0.2s;
-      width: 100%;
     }
-
     button:hover {
       transform: scale(1.05);
     }
@@ -59,14 +49,35 @@
 </head>
 <body>
   <div class="card">
-    <h2>Create Account</h2>
-    <input type="text" id="name" placeholder="Name">
-    <input type="tel" id="phone" placeholder="Phone">
+    <h2>Crear cuenta</h2>
+    <input type="text" id="name" placeholder="Nombre">
+    <input type="text" id="phone" placeholder="Teléfono">
     <input type="email" id="email" placeholder="Email">
-    <input type="password" id="secret" placeholder="Secret Code">
-    <button id="registerBtn">Register</button>
+    <input type="text" id="secret" placeholder="Código secreto">
+    <button onclick="registerUser()">Registrar</button>
   </div>
 
-  <script src="auth.js"></script>
+  <script>
+    function registerUser() {
+      const uid = new URLSearchParams(window.location.search).get("uid") || "";
+      if(!uid) return alert("UID no detectado en el chip NFC.");
+
+      const user = {
+        uid: uid,
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        email: document.getElementById("email").value,
+        secret: document.getElementById("secret").value
+      };
+
+      fetch('data.json')
+        .then(r => r.json())
+        .then(data => {
+          data.users.push(user);
+          alert("Usuario registrado correctamente!");
+          location.href = `t.html?uid=`;
+        });
+    }
+  </script>
 </body>
 </html>

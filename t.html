@@ -18,7 +18,6 @@
       text-align: center;
       padding: 20px;
     }
-
     .card {
       background: rgba(255,255,255,0.08);
       padding: 30px 40px;
@@ -27,14 +26,10 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
-      z-index: 2;
-      position: relative;
     }
-
     h2, p {
       margin: 10px 0;
     }
-
     button {
       margin: 10px;
       padding: 12px 24px;
@@ -46,64 +41,23 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
-
     button:hover {
       transform: scale(1.05);
     }
   </style>
 </head>
 <body>
-  <div id="content" class="card"></div>
+  <div class="card" id="content">
+    <h2>Casco registrado</h2>
+    <p id="token">ID del casco: </p>
+    <button onclick="alert('Agregar a contactos')">Agregar a contactos</button>
+    <button onclick="alert('Modo emergencia')">Modo emergencia</button>
+    <button onclick="location.href='index.html'">Editar / Actualizar info</button>
+  </div>
 
   <script>
-    window.onload = function() {
-      const lang = navigator.language.startsWith("es") ? "es" : "en";
-      const t = {
-        en: {
-          registered: "Helmet Registered",
-          token: "Helmet ID:",
-          add: "Add to Contacts",
-          emergency: "Emergency Mode",
-          edit: "Edit / Update Info"
-        },
-        es: {
-          registered: "Casco registrado",
-          token: "ID del casco:",
-          add: "Agregar a contactos",
-          emergency: "Modo emergencia",
-          edit: "Editar / Actualizar información"
-        }
-      };
-
-      const params = new URLSearchParams(window.location.search);
-      const token = params.get("token") || "N/A";
-      const txt = t[lang];
-      const content = document.getElementById("content");
-
-      const h2 = document.createElement('h2');
-      h2.textContent = txt.registered;
-
-      const p = document.createElement('p');
-      p.textContent = txt.token + ' ' + token;
-
-      const btnAdd = document.createElement('button');
-      btnAdd.textContent = txt.add;
-      btnAdd.onclick = () => alert(txt.add);
-
-      const btnEmergency = document.createElement('button');
-      btnEmergency.textContent = txt.emergency;
-      btnEmergency.onclick = () => alert(txt.emergency);
-
-      const btnEdit = document.createElement('button');
-      btnEdit.textContent = txt.edit;
-      btnEdit.onclick = () => location.href='index.html';
-
-      content.appendChild(h2);
-      content.appendChild(p);
-      content.appendChild(btnAdd);
-      content.appendChild(btnEmergency);
-      content.appendChild(btnEdit);
-    };
+    const uid = new URLSearchParams(window.location.search).get("uid");
+    document.getElementById("token").textContent = "ID del casco: " + (uid || "N/A");
   </script>
 </body>
 </html>
