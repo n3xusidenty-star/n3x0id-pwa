@@ -28,7 +28,7 @@
       max-width: 420px;
       margin-bottom: 20px;
       position: relative;
-      z-index: 2;
+      z-index: 1;
     }
 
     h2, p {
@@ -50,27 +50,10 @@
     button:hover {
       transform: scale(1.05);
     }
-
-    .video-wrapper {
-      max-width: 420px;
-      width: 100%;
-      position: relative;
-      margin-bottom: 20px;
-      z-index: 1;
-    }
-
-    video {
-      width: 100%;
-      border-radius: 10px;
-      display: none; /* oculto por defecto */
-    }
   </style>
 </head>
 <body>
   <div id="content" class="card"></div>
-  <div class="video-wrapper">
-    <video controls id="tutorialVideo" src="tutorial.mp4"></video>
-  </div>
 
   <script>
     window.onload = function() {
@@ -85,8 +68,7 @@
           token: "Helmet ID:",
           add: "Add to Contacts",
           emergency: "Emergency Mode",
-          edit: "Edit / Update Info",
-          continue: "Continue"
+          edit: "Edit / Update Info"
         },
         es: {
           welcome: "¡Bienvenido a N3X0 ID!",
@@ -97,20 +79,16 @@
           token: "ID del casco:",
           add: "Agregar a contactos",
           emergency: "Modo emergencia",
-          edit: "Editar / Actualizar información",
-          continue: "Continuar"
+          edit: "Editar / Actualizar información"
         }
       };
 
       const params = new URLSearchParams(window.location.search);
       const isFirst = params.get("firstTime") === "true";
-      const showVideo = params.get("showVideo") === "true";
       const token = params.get("token") || "N/A";
       const txt = t[lang];
 
       const content = document.getElementById("content");
-      const video = document.getElementById("tutorialVideo");
-
       content.innerHTML = '';
 
       if (isFirst) {
@@ -133,11 +111,6 @@
         content.appendChild(p);
         content.appendChild(btnCreate);
         content.appendChild(btnSkip);
-
-        // Mostrar video solo aquí
-        if (showVideo) {
-          video.style.display = 'block';
-        }
       } else {
         // Pantalla casco registrado
         const h2 = document.createElement('h2');
@@ -163,9 +136,6 @@
         content.appendChild(btnAdd);
         content.appendChild(btnEmergency);
         content.appendChild(btnEdit);
-
-        // Asegurar que el video no se muestre
-        video.style.display = 'none';
       }
     };
   </script>
