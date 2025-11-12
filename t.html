@@ -53,70 +53,58 @@
   </style>
 </head>
 <body>
-  <div class="card" id="content">
-    <h2>Loading...</h2>
-  </div>
+  <!-- Este div es obligatorio para que el script inserte el contenido -->
+  <div id="content" class="card"></div>
 
   <script>
-    // Detecta idioma
-    const lang = navigator.language.startsWith("es") ? "es" : "en";
+    window.onload = function() {
+      var lang = navigator.language.startsWith("es") ? "es" : "en";
 
-    // Textos bilingües
-    const t = {
-      en: {
-        welcome: "Welcome to N3X0 ID!",
-        setup: "Let's set up your smart helmet in 3 quick steps:",
-        create: "Create Account",
-        registered: "Helmet Registered",
-        token: "Helmet ID:",
-        add: "Add to Contacts",
-        emergency: "Emergency Mode",
-        edit: "Edit / Update Info"
-      },
-      es: {
-        welcome: "¡Bienvenido a N3X0 ID!",
-        setup: "Configura tu casco inteligente en solo 3 pasos:",
-        create: "Crear cuenta",
-        registered: "Casco registrado",
-        token: "ID del casco:",
-        add: "Agregar a contactos",
-        emergency: "Modo emergencia",
-        edit: "Editar / Actualizar información"
+      var t = {
+        en: {
+          welcome: "Welcome to N3X0 ID!",
+          setup: "Let's set up your smart helmet in 3 quick steps:",
+          create: "Create Account",
+          registered: "Helmet Registered",
+          token: "Helmet ID:",
+          add: "Add to Contacts",
+          emergency: "Emergency Mode",
+          edit: "Edit / Update Info"
+        },
+        es: {
+          welcome: "¡Bienvenido a N3X0 ID!",
+          setup: "Configura tu casco inteligente en solo 3 pasos:",
+          create: "Crear cuenta",
+          registered: "Casco registrado",
+          token: "ID del casco:",
+          add: "Agregar a contactos",
+          emergency: "Modo emergencia",
+          edit: "Editar / Actualizar información"
+        }
+      };
+
+      var params = new URLSearchParams(window.location.search);
+      var isFirst = params.get("firstTime") === "true";
+      var token = params.get("token");
+      var content = document.getElementById("content");
+      var txt = t[lang];
+
+      // Lógica de renderizado
+      if (!params.toString() || isFirst) {
+        content.innerHTML =
+          "<h2>" + txt.welcome + "</h2>" +
+          "<p>" + txt.setup + "</p>" +
+          "<video controls src='tutorial.mp4'></video>" +
+          "<button onclick=\"location.href='index.html'\">" + txt.create + "</button>";
+      } else {
+        content.innerHTML =
+          "<h2>" + txt.registered + "</h2>" +
+          "<p>" + txt.token + " " + (token || "N/A") + "</p>" +
+          "<button onclick=\"alert('" + txt.add + "')\">" + txt.add + "</button>" +
+          "<button onclick=\"alert('" + txt.emergency + "')\">" + txt.emergency + "</button>" +
+          "<button onclick=\"location.href='index.html'\">" + txt.edit + "</button>";
       }
     };
-
-    // Detecta parámetros de la URL
-    const params = new URLSearchParams(window.location.search);
-    const isFirst = params.get("firstTime") === "true";
-    const token = params.get("token");
-
-    const content = document.getElementById("content");
-    const txt = t[lang];
-
-    // Si no hay parámetros, muestra pantalla por defecto
-    if (!params.toString()) {
-      content.innerHTML = `
-        <h2></h2>
-        <p></p>
-        <video controls src="tutorial.mp4"></video>
-        <button onclick="location.href='index.html'"></button>
-      `;
-    } else if (isFirst) {
-      content.innerHTML = `
-        <h2></h2>
-        <p></p>
-        <video controls src="tutorial.mp4"></video>
-        <button onclick="location.href='index.html'"></button>
-      `;
-    } else {
-      content.innerHTML = `
-        <h2></h2>
-        <p> </p>
-        <button onclick="alert('')"></button>
-        <button onclick="alert('')"></button>
-        <button onclick="location.href='index.html'"></button>
-      `;
-    }
   </script>
 </body>
 </html>
