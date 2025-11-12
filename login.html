@@ -1,81 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>N3X0 ID - Login</title>
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      text-align: center;
-      padding: 20px;
-    }
-    .card {
-      background: rgba(255,255,255,0.08);
-      padding: 30px 40px;
-      border-radius: 18px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-      max-width: 420px;
-      margin-bottom: 20px;
-    }
-    h2, p { margin: 10px 0; }
-    button {
-      margin: 10px;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      background: linear-gradient(90deg, #00e1ff, #00ffa6);
-      color: #000;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    button:hover { transform: scale(1.05); }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 6px;
-      border: none;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - N3X0 ID</title>
+<style>
+body{font-family:"Poppins",sans-serif;background:radial-gradient(circle at 30% 20%,#121b2f,#0a0f1c);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100vh;margin:0;text-align:center;padding:20px;}
+.card{background:rgba(255,255,255,0.08);padding:30px 40px;border-radius:18px;backdrop-filter:blur(10px);box-shadow:0 4px 30px rgba(0,0,0,0.4);max-width:420px;margin-bottom:20px;}
+input,button{margin:10px 0;padding:10px;width:100%;border-radius:8px;border:none;}
+button{background:linear-gradient(90deg,#00e1ff,#00ffa6);font-weight:600;cursor:pointer;}
+.loading{font-size:1.2em;color:#00e1ff;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%{opacity:0.5}50%{opacity:1}100%{opacity:0.5}}
+</style>
 </head>
 <body>
-  <div class="card" id="content"></div>
-
-  <script>
-    const lang = navigator.language.startsWith("es") ? "es" : "en";
-
-    const t = {
-      en: {
-        title: "Login to N3X0 ID",
-        submit: "Login",
-        secret: "Secret Code"
-      },
-      es: {
-        title: "Iniciar sesión en N3X0 ID",
-        submit: "Entrar",
-        secret: "Código secreto"
-      }
-    };
-
-    const txt = t[lang];
-
-    const content = document.getElementById("content");
-    content.innerHTML = `
-      <h2></h2>
-      <input type="text" id="secret" placeholder="">
-      <button onclick="alert('Logged in!')"></button>
-    `;
-  </script>
+<div class="card" id="content"><p class="loading">Loading...</p></div>
+<script>
+window.onload=function(){
+const lang=navigator.language.startsWith("es")?"es":"en";
+const t={en:{login:"Login", email:"Email", secret:"Secret Code", submit:"Login"},es:{login:"Iniciar sesión", email:"Correo", secret:"Código secreto", submit:"Entrar"}};
+const txt=t[lang];
+const content=document.getElementById("content");
+content.innerHTML='';
+const h2=document.createElement('h2'); h2.textContent=txt.login;
+const form=document.createElement('form');
+const inputEmail=document.createElement('input'); inputEmail.placeholder=txt.email; inputEmail.required=true; inputEmail.type="email";
+const inputSecret=document.createElement('input'); inputSecret.placeholder=txt.secret; inputSecret.required=true;
+const btn=document.createElement('button'); btn.type="submit"; btn.textContent=txt.submit;
+form.appendChild(inputEmail); form.appendChild(inputSecret); form.appendChild(btn);
+content.appendChild(h2); content.appendChild(form);
+form.onsubmit=function(e){e.preventDefault();alert('Logged in: '+inputEmail.value);}
+};
+</script>
 </body>
 </html>

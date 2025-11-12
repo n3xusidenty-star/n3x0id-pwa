@@ -26,10 +26,10 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
     }
-    h2, p {
-      margin: 10px 0;
-    }
+    h2, p { margin: 10px 0; }
     button {
       margin: 10px;
       padding: 12px 24px;
@@ -41,57 +41,44 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
-    button:hover {
-      transform: scale(1.05);
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 6px;
-      border: none;
-    }
+    button:hover { transform: scale(1.05); }
+    .loading { font-size: 1.2em; color: #00e1ff; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% {opacity:0.5;} 50% {opacity:1;} 100% {opacity:0.5;} }
   </style>
 </head>
 <body>
-  <div class="card" id="content"></div>
+  <div class="card" id="content">
+    <p class="loading">Loading...</p>
+  </div>
 
   <script>
-    const lang = navigator.language.startsWith("es") ? "es" : "en";
+    window.onload = function() {
+      const lang = navigator.language.startsWith("es") ? "es" : "en";
+      const t = {
+        en: { welcome:"Welcome to N3X0 ID!", setup:"Register your smart helmet in 3 steps:", create:"Create Account", registered:"Helmet Registered", token:"Helmet ID:", add:"Add to Contacts", emergency:"Emergency Mode", edit:"Edit / Update Info" },
+        es: { welcome:"¡Bienvenido a N3X0 ID!", setup:"Registra tu casco inteligente en 3 pasos:", create:"Crear cuenta", registered:"Casco registrado", token:"ID del casco:", add:"Agregar a contactos", emergency:"Modo emergencia", edit:"Editar / Actualizar información" }
+      };
+      const params = new URLSearchParams(window.location.search);
+      const isFirst = params.get("firstTime") === "true";
+      const token = params.get("token") || "N/A";
+      const txt = t[lang];
+      const content = document.getElementById("content");
 
-    const t = {
-      en: {
-        welcome: "Welcome to N3X0 ID!",
-        setup: "Register your smart helmet",
-        create: "Create Account",
-        name: "Full Name",
-        email: "Email",
-        phone: "Phone",
-        secret: "Secret Code"
-      },
-      es: {
-        welcome: "¡Bienvenido a N3X0 ID!",
-        setup: "Registra tu casco inteligente",
-        create: "Crear cuenta",
-        name: "Nombre completo",
-        email: "Correo electrónico",
-        phone: "Teléfono",
-        secret: "Código secreto"
+      content.innerHTML = '';
+      if (!params.toString() || isFirst) {
+        const h2=document.createElement('h2'); h2.textContent=txt.welcome;
+        const p=document.createElement('p'); p.textContent=txt.setup;
+        const btn=document.createElement('button'); btn.textContent=txt.create; btn.onclick=()=>location.href='register.html';
+        content.appendChild(h2); content.appendChild(p); content.appendChild(btn);
+      } else {
+        const h2=document.createElement('h2'); h2.textContent=txt.registered;
+        const p=document.createElement('p'); p.textContent=txt.token+' '+token;
+        const btnAdd=document.createElement('button'); btnAdd.textContent=txt.add; btnAdd.onclick=()=>alert(txt.add);
+        const btnEmergency=document.createElement('button'); btnEmergency.textContent=txt.emergency; btnEmergency.onclick=()=>alert(txt.emergency);
+        const btnEdit=document.createElement('button'); btnEdit.textContent=txt.edit; btnEdit.onclick=()=>location.href='register.html';
+        content.appendChild(h2); content.appendChild(p); content.appendChild(btnAdd); content.appendChild(btnEmergency); content.appendChild(btnEdit);
       }
     };
-
-    const txt = t[lang];
-
-    const content = document.getElementById("content");
-    content.innerHTML = `
-      <h2></h2>
-      <p></p>
-      <input type="text" id="name" placeholder="">
-      <input type="email" id="email" placeholder="">
-      <input type="tel" id="phone" placeholder="">
-      <input type="text" id="secret" placeholder="">
-      <button onclick="location.href='register.html'"></button>
-    `;
   </script>
 </body>
 </html>
