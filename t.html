@@ -4,56 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>N3X0 ID - Helmet Scan</title>
-<style>
-  body {
-    font-family: "Poppins", sans-serif;
-    background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    margin: 0;
-    text-align: center;
-    padding: 20px;
-  }
-
-  .card {
-    background: rgba(255,255,255,0.08);
-    padding: 30px 40px;
-    border-radius: 18px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-    max-width: 420px;
-    margin-bottom: 20px;
-    position: relative;
-  }
-
-  h2, p {
-    margin: 10px 0;
-  }
-
-  button {
-    margin: 10px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(90deg, #00e1ff, #00ffa6);
-    color: #000;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
 <div class="card">
   <div class="card-content" id="content"></div>
 </div>
@@ -89,10 +42,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const isFirst = params.get("firstTime") === "true";
   const token = params.get("token") || "N/A";
   const txt = t[lang];
-
   const content = document.getElementById("content");
 
-  // Limpiar contenido previo
   content.innerHTML = '';
 
   if (!params.toString() || isFirst) {
@@ -139,6 +90,5 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 </script>
-
 </body>
 </html>

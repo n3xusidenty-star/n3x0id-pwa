@@ -1,34 +1,45 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f5f5f5;
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  text-align: center;
+  padding: 20px;
 }
 
-h1 {
-    color: #333;
-    text-align: center;
+.card {
+  background: rgba(255,255,255,0.08);
+  padding: 30px 40px;
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+  max-width: 420px;
+  margin-bottom: 20px;
+  position: relative;
 }
 
-#tutorial, #info-cliente {
-    background-color: #fff;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+h2, p {
+  margin: 10px 0;
 }
 
 button {
-    display: block;
-    margin: 10px auto;
-    padding: 10px 15px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #0077cc;
-    color: white;
-    cursor: pointer;
+  margin: 10px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #00e1ff, #00ffa6);
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 button:hover {
-    background-color: #005fa3;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
