@@ -5,74 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register - N3X0 ID</title>
 <style>
-  body {
-    font-family: "Poppins", sans-serif;
-    background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
-    color: #fff;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    min-height:100vh;
-    margin:0;
-    text-align:center;
-    padding:20px;
-  }
-  .card {
-    background: rgba(255,255,255,0.08);
-    padding: 30px 40px;
-    border-radius: 18px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-    max-width:420px;
-    margin-bottom:20px;
-  }
-  input, button {
-    margin:10px 0;
-    padding:10px;
-    width:100%;
-    border-radius:8px;
-    border:none;
-  }
-  button {
-    background: linear-gradient(90deg,#00e1ff,#00ffa6);
-    font-weight:600;
-    cursor:pointer;
-  }
-  .loading { font-size: 1.2em; color: #00e1ff; animation: pulse 1.5s infinite; }
-  @keyframes pulse { 0% {opacity:0.5;} 50% {opacity:1;} 100% {opacity:0.5;} }
+body { font-family:"Poppins",sans-serif; background:radial-gradient(circle at 30% 20%,#121b2f,#0a0f1c); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-height:100vh; margin:0; text-align:center; padding:20px; }
+.card { background:rgba(255,255,255,0.08); padding:30px 40px; border-radius:18px; backdrop-filter:blur(10px); box-shadow:0 4px 30px rgba(0,0,0,0.4); max-width:420px; margin-bottom:20px; }
+input,button { margin:10px 0; padding:10px; width:100%; border-radius:8px; border:none; }
+button { background:linear-gradient(90deg,#00e1ff,#00ffa6); font-weight:600; cursor:pointer; }
+.loading { font-size:1.2em; color:#00e1ff; animation:pulse 1.5s infinite; }
+@keyframes pulse {0%{opacity:0.5}50%{opacity:1}100%{opacity:0.5}}
 </style>
 </head>
 <body>
-  <div class="card" id="content">
-    <p class="loading">Loading...</p>
-  </div>
+<div class="card" id="content"><p class="loading">Loading...</p></div>
+<script src="translations.js"></script>
+<script>
+window.onload=function(){
+  const content = document.getElementById("content");
+  content.innerHTML='';
+  const h2 = document.createElement('h2'); h2.textContent = txt.register.title;
+  const form = document.createElement('form');
+  const inputName=document.createElement('input'); inputName.placeholder=txt.register.name; inputName.required=true;
+  const inputEmail=document.createElement('input'); inputEmail.placeholder=txt.register.email; inputEmail.required=true; inputEmail.type="email";
+  const inputPhone=document.createElement('input'); inputPhone.placeholder=txt.register.phone; inputPhone.required=true;
+  const inputSecret=document.createElement('input'); inputSecret.placeholder=txt.register.secret; inputSecret.required=true;
+  const btn=document.createElement('button'); btn.type="submit"; btn.textContent=txt.register.submit;
+  form.appendChild(inputName); form.appendChild(inputEmail); form.appendChild(inputPhone); form.appendChild(inputSecret); form.appendChild(btn);
+  content.appendChild(h2); content.appendChild(form);
 
-  <script>
-    window.onload = function(){
-      const lang = navigator.language.startsWith("es") ? "es":"en";
-      const t = {
-        en:{register:"Register your helmet", name:"Name", email:"Email", phone:"Phone", secret:"Secret Code", submit:"Register"},
-        es:{register:"Registrar casco", name:"Nombre", email:"Correo", phone:"Teléfono", secret:"Código secreto", submit:"Registrar"}
-      };
-      const txt=t[lang];
-      const content=document.getElementById("content");
-      content.innerHTML='';
-      const h2=document.createElement('h2'); h2.textContent=txt.register;
-      const form=document.createElement('form'); 
-      const inputName=document.createElement('input'); inputName.placeholder=txt.name; inputName.required=true;
-      const inputEmail=document.createElement('input'); inputEmail.placeholder=txt.email; inputEmail.required=true; inputEmail.type="email";
-      const inputPhone=document.createElement('input'); inputPhone.placeholder=txt.phone; inputPhone.required=true;
-      const inputSecret=document.createElement('input'); inputSecret.placeholder=txt.secret; inputSecret.required=true;
-      const btn=document.createElement('button'); btn.type="submit"; btn.textContent=txt.submit;
-      form.appendChild(inputName); form.appendChild(inputEmail); form.appendChild(inputPhone); form.appendChild(inputSecret); form.appendChild(btn);
-      content.appendChild(h2); content.appendChild(form);
-
-      form.onsubmit=function(e){
-        e.preventDefault();
-        alert('Registered: '+inputName.value);
-      }
-    };
-  </script>
+  form.onsubmit=function(e){
+    e.preventDefault();
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const chips = JSON.parse(localStorage.getItem("chips")) || [
+      {uid:"04A5EC434F6181", secret:"ABC123"},
+      {uid:"04A5EC434F6182", secret:"DEF456"}
+    ];
+    const chip = chips.find(c=>c.secret===inputSecret.value);
+    if(!chip){ alert("Código secreto inválido"); return; }
+    const user = { uid:chip.uid, name:inputName.value, email:inputEmail.value, phone:inputPhone.value, emergency:"N/A" };
+    users.push(user);
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("chips", JSON.stringify(chips));
+    alert("Registrado: "+user.name);
+    location.href="welcome.html?token="+user.uid;
+  }
+};
+</script>
 </body>
 </html>

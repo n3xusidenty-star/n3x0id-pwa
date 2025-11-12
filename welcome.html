@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome - N3X0 ID</title>
+<style>
+body { font-family:"Poppins",sans-serif; background:radial-gradient(circle at 30% 20%,#121b2f,#0a0f1c); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-height:100vh; margin:0; text-align:center; padding:20px; }
+.card { background:rgba(255,255,255,0.08); padding:30px 40px; border-radius:18px; backdrop-filter:blur(10px); box-shadow:0 4px 30px rgba(0,0,0,0.4); max-width:420px; margin-bottom:20px; }
+h2,p { margin:10px 0; }
+button { margin:10px; padding:12px 24px; border:none; border-radius:8px; background:linear-gradient(90deg,#00e1ff,#00ffa6); color:#000; font-weight:600; cursor:pointer; transition:transform 0.2s; }
+button:hover { transform:scale(1.05); }
+.loading { font-size:1.2em; color:#00e1ff; animation:pulse 1.5s infinite; }
+@keyframes pulse {0%{opacity:0.5}50%{opacity:1}100%{opacity:0.5}}
+</style>
+</head>
+<body>
+<div class="card" id="content"><p class="loading">Loading...</p></div>
+
+<script src="translations.js"></script>
+<script>
+window.onload = function(){
+  const params = new URLSearchParams(window.location.search);
+  const isFirst = params.get("firstTime") === "true";
+  const token = params.get("token") || null;
+  const content = document.getElementById("content");
+  content.innerHTML='';
+
+  if(!params.toString() || isFirst){
+    const h2 = document.createElement('h2'); h2.textContent = txt.welcome.title;
+    const p = document.createElement('p'); p.textContent = txt.welcome.setup;
+    const btn = document.createElement('button'); btn.textContent = txt.welcome.create; btn.onclick = ()=>location.href='register.html';
+    content.appendChild(h2); content.appendChild(p); content.appendChild(btn);
+  } else {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find(u=>u.uid===token);
+    if(user){
+      const h2 = document.createElement('h2'); h2.textContent = txt.common.registered;
+      const p = document.createElement('p'); p.textContent = txt.common.token + ' ' + user.uid;
+      const info = document.createElement('p'); info.textContent=` -  - `;
+      const btnAdd = document.createElement('button'); btnAdd.textContent=txt.common.add; btnAdd.onclick=()=>alert(txt.common.add);
+      const btnEmergency = document.createElement('button'); btnEmergency.textContent=txt.common.emergency; btnEmergency.onclick=()=>alert(txt.common.emergency);
+      const btnEdit = document.createElement('button'); btnEdit.textContent=txt.common.edit; btnEdit.onclick=()=>location.href='register.html';
+      content.appendChild(h2); content.appendChild(p); content.appendChild(info);
+      content.appendChild(btnAdd); content.appendChild(btnEmergency); content.appendChild(btnEdit);
+    } else {
+      content.innerHTML="<p>No se encontró usuario</p>";
+    }
+  }
+};
+</script>
+</body>
+</html>
