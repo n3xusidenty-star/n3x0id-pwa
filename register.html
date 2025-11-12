@@ -18,7 +18,6 @@
       text-align: center;
       padding: 20px;
     }
-
     .card {
       background: rgba(255,255,255,0.08);
       padding: 30px 40px;
@@ -27,108 +26,56 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
-      z-index: 2;
       position: relative;
+      z-index: 1;
     }
-
-    h2, label, input, button {
-      display: block;
-      width: 100%;
+    input, button {
       margin: 10px 0;
-    }
-
-    input {
       padding: 10px;
       border-radius: 6px;
       border: none;
+      width: 100%;
+      font-size: 1em;
     }
-
     button {
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
       background: linear-gradient(90deg, #00e1ff, #00ffa6);
       color: #000;
       font-weight: 600;
       cursor: pointer;
       transition: transform 0.2s;
     }
-
-    button:hover {
-      transform: scale(1.05);
-    }
+    button:hover { transform: scale(1.05); }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2 id="title">Register New User</h2>
-    <form id="registerForm">
-      <label for="name">Name / Nombre</label>
-      <input type="text" id="name" required />
-
-      <label for="phone">Phone / Teléfono</label>
-      <input type="text" id="phone" required />
-
-      <label for="email">Email</label>
-      <input type="email" id="email" required />
-
-      <label for="secret">Secret Code / Código secreto</label>
-      <input type="text" id="secret" required />
-
-      <button type="submit">Register / Registrar</button>
-    </form>
+    <h2 id="title"></h2>
+    <input type="text" id="name" placeholder="" />
+    <input type="email" id="email" placeholder="" />
+    <input type="tel" id="phone" placeholder="" />
+    <input type="text" id="secret" placeholder="" />
+    <button id="registerBtn"></button>
   </div>
 
   <script>
-    window.onload = async function() {
-      const uid = new URLSearchParams(window.location.search).get('uid');
-      if(!uid) {
-        alert('UID not found / UID no encontrado');
-        window.location.href = 'index.html';
-        return;
-      }
+    const lang = navigator.language.startsWith("es") ? "es" : "en";
+    const t = {
+      en: { register: "Register Account", name:"Name", email:"Email", phone:"Phone", secret:"Secret Code" },
+      es: { register: "Crear Cuenta", name:"Nombre", email:"Correo electrónico", phone:"Teléfono", secret:"Código secreto" }
+    };
+    const txt = t[lang];
 
-      const lang = navigator.language.startsWith('es') ? 'es' : 'en';
-      const txt = {
-        en: { invalid: "Invalid UID or secret", success: "Registration successful!", back: "Back to Home" },
-        es: { invalid: "UID o código secreto inválido", success: "¡Registro exitoso!", back: "Volver al inicio" }
-      }[lang];
+    document.getElementById("title").textContent = txt.register;
+    document.getElementById("name").placeholder = txt.name;
+    document.getElementById("email").placeholder = txt.email;
+    document.getElementById("phone").placeholder = txt.phone;
+    document.getElementById("secret").placeholder = txt.secret;
+    document.getElementById("registerBtn").textContent = txt.register;
 
-      const form = document.getElementById('registerForm');
-      form.addEventListener('submit', async e => {
-        e.preventDefault();
-
-        const name = document.getElementById('name').value;
-        const phone = document.getElementById('phone').value;
-        const email = document.getElementById('email').value;
-        const secret = document.getElementById('secret').value;
-
-        // Leer JSON
-        const response = await fetch('data.json');
-        const data = await response.json();
-
-        // Validar UID + código secreto
-        const chip = data.chips.find(c => c.uid === uid && c.secret === secret);
-        if(!chip) {
-          alert(txt.invalid);
-          return;
-        }
-
-        // Revisar si usuario ya existe
-        let user = data.users.find(u => u.uid === uid);
-        if(user) {
-          alert(txt.invalid + ' (user exists / usuario ya registrado)');
-          return;
-        }
-
-        // Guardar nuevo usuario
-        data.users.push({ uid, name, phone, email, emergency: "" });
-
-        // Para pruebas: mostrar éxito (en producción se enviaría al servidor)
-        alert(txt.success);
-        window.location.href = `t.html?uid=`;
-      });
-    }
+    // Aquí se integraría la lógica para validar UID + secret
+    document.getElementById("registerBtn").onclick = () => {
+      alert(txt.register + " - Logic placeholder");
+    };
   </script>
 </body>
 </html>

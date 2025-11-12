@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>N3X0 ID - Helmet Scan</title>
+  <title>N3X0 ID - Welcome</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
@@ -26,19 +26,10 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
-      z-index: 2;
       position: relative;
+      z-index: 1;
     }
-    h2, p {
-      margin: 10px 0;
-    }
-    input {
-      margin: 8px 0;
-      padding: 10px;
-      width: 100%;
-      border-radius: 6px;
-      border: none;
-    }
+    h2, p { margin: 10px 0; }
     button {
       margin: 10px;
       padding: 12px 24px;
@@ -50,50 +41,37 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
-    button:hover {
-      transform: scale(1.05);
-    }
+    button:hover { transform: scale(1.05); }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Welcome / ¡Bienvenido a N3X0 ID!</h2>
-    <p>Register your smart helmet</p>
-    <form id="registerForm">
-      <input type="text" id="name" placeholder="Name / Nombre" required />
-      <input type="text" id="phone" placeholder="Phone / Teléfono" required />
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="text" id="secret" placeholder="Secret Code / Código secreto" required />
-      <button type="submit">Create Account / Crear cuenta</button>
-    </form>
-    <p><a href="login.html">Login / Iniciar sesión</a></p>
-  </div>
+  <div id="content" class="card"></div>
 
   <script>
-    const form = document.getElementById('registerForm');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const uid = new URLSearchParams(window.location.search).get('uid');
-      const secretInput = document.getElementById('secret').value;
-      
-      const response = await fetch('data.json');
-      const data = await response.json();
+    const lang = navigator.language.startsWith("es") ? "es" : "en";
+    const t = {
+      en: {
+        welcome: "Welcome to N3X0 ID!",
+        setup: "Register your smart helmet in 3 quick steps",
+        create: "Create Account"
+      },
+      es: {
+        welcome: "¡Bienvenido a N3X0 ID!",
+        setup: "Registra tu casco inteligente en 3 pasos",
+        create: "Crear cuenta"
+      }
+    };
+    const txt = t[lang];
 
-      const chip = data.chips.find(c => c.uid === uid && c.secret === secretInput);
-      if(!chip) { alert('Invalid UID or Secret / UID o código inválido'); return; }
+    const params = new URLSearchParams(window.location.search);
+    const isFirst = params.get("firstTime") === "true";
+    const content = document.getElementById("content");
 
-      const newUser = {
-        uid,
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        emergency: ''
-      };
-
-      data.users.push(newUser);
-      alert('User created successfully! / Usuario creado con éxito');
-      window.location.href = `login.html?uid=`;
-    });
+    content.innerHTML = `
+      <h2></h2>
+      <p></p>
+      <button onclick="location.href='register.html'"></button>
+    `;
   </script>
 </body>
 </html>

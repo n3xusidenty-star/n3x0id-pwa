@@ -26,70 +26,50 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
-      z-index: 2;
       position: relative;
+      z-index: 1;
     }
-    h2, p {
+    input, button {
       margin: 10px 0;
-    }
-    input {
-      margin: 8px 0;
       padding: 10px;
-      width: 100%;
       border-radius: 6px;
       border: none;
+      width: 100%;
+      font-size: 1em;
     }
     button {
-      margin: 10px;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
       background: linear-gradient(90deg, #00e1ff, #00ffa6);
       color: #000;
       font-weight: 600;
       cursor: pointer;
       transition: transform 0.2s;
     }
-    button:hover {
-      transform: scale(1.05);
-    }
+    button:hover { transform: scale(1.05); }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>Login / Iniciar sesión</h2>
-    <form id="loginForm">
-      <input type="text" id="secret" placeholder="Secret Code / Código secreto" required />
-      <button type="submit">Login / Ingresar</button>
-    </form>
-    <p><a href="index.html">Back / Volver</a></p>
+    <h2 id="title"></h2>
+    <input type="text" id="uid" placeholder="UID" />
+    <input type="text" id="secret" placeholder="" />
+    <button id="loginBtn"></button>
   </div>
 
   <script>
-    const form = document.getElementById('loginForm');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const uid = new URLSearchParams(window.location.search).get('uid');
-      const secretInput = document.getElementById('secret').value;
+    const lang = navigator.language.startsWith("es") ? "es" : "en";
+    const t = {
+      en: { login:"Login", secret:"Secret Code" },
+      es: { login:"Iniciar sesión", secret:"Código secreto" }
+    };
+    const txt = t[lang];
 
-      const response = await fetch('data.json');
-      const data = await response.json();
+    document.getElementById("title").textContent = txt.login;
+    document.getElementById("secret").placeholder = txt.secret;
+    document.getElementById("loginBtn").textContent = txt.login;
 
-      const chip = data.chips.find(c => c.uid === uid && c.secret === secretInput);
-      if(!chip) { 
-        alert('Invalid UID or Secret / UID o código inválido'); 
-        return; 
-      }
-
-      const user = data.users.find(u => u.uid === uid);
-      if(!user) {
-        alert('User not registered / Usuario no registrado');
-        window.location.href = `index.html?uid=`;
-        return;
-      }
-
-      window.location.href = `t.html?uid=`;
-    });
+    document.getElementById("loginBtn").onclick = () => {
+      alert(txt.login + " - Logic placeholder");
+    };
   </script>
 </body>
 </html>
