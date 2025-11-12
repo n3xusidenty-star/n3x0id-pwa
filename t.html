@@ -1,159 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>N3X0 ID - Helmet Scan</title>
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.08);
-      padding: 30px 40px;
-      border-radius: 18px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-      max-width: 420px;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .video-wrapper {
-      max-width: 420px;
-      width: 100%;
-      margin-bottom: 20px;
-    }
-
-    video {
-      width: 100%;
-      border-radius: 10px;
-      display: none; /* se activa solo para primer cliente */
-    }
-
-    h2, p {
-      margin: 10px 0;
-    }
-
-    button {
-      margin: 10px;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      background: linear-gradient(90deg, #00e1ff, #00ffa6);
-      color: #000;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N3X0 ID - Helmet Scan</title>
+<style>
+body {
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  text-align: center;
+  padding: 20px;
+}
+.card {
+  background: rgba(255,255,255,0.08);
+  padding: 30px 40px;
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+  max-width: 420px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.video-wrapper {
+  max-width: 420px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+video {
+  width: 100%;
+  border-radius: 10px;
+  display: none; /* solo se activa para primer cliente */
+}
+h2, p {
+  margin: 10px 0;
+}
+button {
+  margin: 10px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #00e1ff, #00ffa6);
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+button:hover { transform: scale(1.05); }
+</style>
 </head>
 <body>
-  <div id="content" class="card"></div>
+<div id="content" class="card"></div>
+<div class="video-wrapper">
+  <video controls src="tutorial.mp4" id="tutorialVideo"></video>
+</div>
 
-  <div class="video-wrapper">
-    <video controls src="tutorial.mp4" id="tutorialVideo"></video>
-  </div>
+<script>
+window.onload = function() {
+  const lang = navigator.language.startsWith("es") ? "es" : "en";
+  const txt = {
+    en: {
+      welcome: "Welcome to N3X0 ID!",
+      setup: "Let's set up your smart helmet in 3 quick steps:",
+      create: "Create Account",
+      registered: "Helmet Registered",
+      token: "Helmet ID:",
+      add: "Add to Contacts",
+      emergency: "Emergency Mode",
+      edit: "Edit / Update Info"
+    },
+    es: {
+      welcome: "¡Bienvenido a N3X0 ID!",
+      setup: "Configura tu casco inteligente en solo 3 pasos:",
+      create: "Crear cuenta",
+      registered: "Casco registrado",
+      token: "ID del casco:",
+      add: "Agregar a contactos",
+      emergency: "Modo emergencia",
+      edit: "Editar / Actualizar información"
+    }
+  }[lang];
 
-  <script>
-    window.onload = function() {
-      const lang = navigator.language.startsWith("es") ? "es" : "en";
+  const content = document.getElementById("content");
+  const video = document.getElementById("tutorialVideo");
 
-      const t = {
-        en: {
-          welcome: "Welcome to N3X0 ID!",
-          setup: "Let's set up your smart helmet in 3 quick steps:",
-          create: "Create Account",
-          registered: "Helmet Registered",
-          token: "Helmet ID:",
-          add: "Add to Contacts",
-          emergency: "Emergency Mode",
-          edit: "Edit / Update Info"
-        },
-        es: {
-          welcome: "¡Bienvenido a N3X0 ID!",
-          setup: "Configura tu casco inteligente en solo 3 pasos:",
-          create: "Crear cuenta",
-          registered: "Casco registrado",
-          token: "ID del casco:",
-          add: "Agregar a contactos",
-          emergency: "Modo emergencia",
-          edit: "Editar / Actualizar información"
-        }
-      };
+  // Simulamos base de datos de UIDs registradas
+  const registeredUIDs = ["04A2241B3C5781", "04A2241B3C5782", "04A2241B3C5783"]; // ejemplo
+  const params = new URLSearchParams(window.location.search);
+  const uid = params.get("uid") || "N/A";
 
-      const params = new URLSearchParams(window.location.search);
-      const uid = params.get("uid") || "N/A";
-      const isFirst = params.get("firstTime") === "true";
-      const showVideo = isFirst; // video solo para primer cliente
-      const txt = t[lang];
-      const content = document.getElementById("content");
-      const video = document.getElementById("tutorialVideo");
+  content.innerHTML = '';
 
-      content.innerHTML = '';
+  if (!registeredUIDs.includes(uid)) {
+    // Primer cliente
+    const h2 = document.createElement('h2');
+    h2.textContent = txt.welcome;
 
-      if (isFirst || !params.toString()) {
-        // Primer cliente
-        const h2 = document.createElement('h2');
-        h2.textContent = txt.welcome;
+    const p = document.createElement('p');
+    p.textContent = txt.setup;
 
-        const p = document.createElement('p');
-        p.textContent = txt.setup;
+    const btn = document.createElement('button');
+    btn.textContent = txt.create;
+    btn.onclick = () => alert("Aquí se lanzaría la creación de cuenta");
 
-        const btn = document.createElement('button');
-        btn.textContent = txt.create;
-        btn.onclick = () => alert("Aquí se lanzaría la creación de cuenta");
+    content.appendChild(h2);
+    content.appendChild(p);
+    content.appendChild(btn);
 
-        content.appendChild(h2);
-        content.appendChild(p);
-        content.appendChild(btn);
+    video.style.display = 'block'; // mostrar video para primer cliente
+  } else {
+    // Casco registrado
+    const h2 = document.createElement('h2');
+    h2.textContent = txt.registered;
 
-        if (showVideo) video.style.display = 'block';
-      } else {
-        // Casco registrado
-        const h2 = document.createElement('h2');
-        h2.textContent = txt.registered;
+    const p = document.createElement('p');
+    p.textContent = txt.token + ' ' + uid;
 
-        const p = document.createElement('p');
-        p.textContent = txt.token + ' ' + uid;
+    const btnAdd = document.createElement('button');
+    btnAdd.textContent = txt.add;
+    btnAdd.onclick = () => alert(txt.add);
 
-        const btnAdd = document.createElement('button');
-        btnAdd.textContent = txt.add;
-        btnAdd.onclick = () => alert(txt.add);
+    const btnEmergency = document.createElement('button');
+    btnEmergency.textContent = txt.emergency;
+    btnEmergency.onclick = () => alert(txt.emergency);
 
-        const btnEmergency = document.createElement('button');
-        btnEmergency.textContent = txt.emergency;
-        btnEmergency.onclick = () => alert(txt.emergency);
+    const btnEdit = document.createElement('button');
+    btnEdit.textContent = txt.edit;
+    btnEdit.onclick = () => alert("Aquí se abriría el formulario de edición");
 
-        const btnEdit = document.createElement('button');
-        btnEdit.textContent = txt.edit;
-        btnEdit.onclick = () => alert("Aquí se abriría el formulario de edición");
+    content.appendChild(h2);
+    content.appendChild(p);
+    content.appendChild(btnAdd);
+    content.appendChild(btnEmergency);
+    content.appendChild(btnEdit);
 
-        content.appendChild(h2);
-        content.appendChild(p);
-        content.appendChild(btnAdd);
-        content.appendChild(btnEmergency);
-        content.appendChild(btnEdit);
-
-        video.style.display = 'none';
-      }
-    };
-  </script>
+    video.style.display = 'none'; // ocultar video para cascos registrados
+  }
+};
+</script>
 </body>
 </html>
