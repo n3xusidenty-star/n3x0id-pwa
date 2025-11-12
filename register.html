@@ -3,44 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>N3X0 ID - Register</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Create Account - N3X0 ID</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="auth.js"></script>
 </head>
 <body>
   <div class="card">
-    <h2>Register Your Helmet</h2>
-    <form id="registerForm">
-      <input type="text" placeholder="First Name" id="firstName" required>
-      <input type="text" placeholder="Last Name" id="lastName" required>
-      <input type="text" placeholder="Phone" id="phone" required>
-      <input type="email" placeholder="Email" id="email" required>
-      <input type="password" placeholder="Password" id="password" required>
-      <textarea placeholder="Medical Info (optional)" id="medical"></textarea>
-      <button type="submit">Register</button>
-    </form>
+    <h2>Create Your Account</h2>
+    <input id="name" placeholder="Full Name" />
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <input id="uid" placeholder="Helmet UID (optional)" />
+    <button id="registerBtn">Register</button>
+    <button onclick="location.href='login.html'">Already have an account?</button>
   </div>
 
-  <script src="app.js"></script>
   <script>
-    window.onload = function() {
-      const form = document.getElementById("registerForm");
-      const params = new URLSearchParams(window.location.search);
-      const uid = params.get("uid");
-
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const data = {
-          firstName: document.getElementById("firstName").value,
-          lastName: document.getElementById("lastName").value,
-          phone: document.getElementById("phone").value,
-          email: document.getElementById("email").value,
-          password: document.getElementById("password").value,
-          medical: document.getElementById("medical").value
-        };
-        localStorage.setItem(uid, JSON.stringify(data));
-        location.href = `t.html?uid=`;
-      });
+    document.getElementById("registerBtn").onclick = () => {
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      const uid = uidInput.value.trim();
+      if (!email || !password || !name) return alert("Please fill all fields.");
+      if (saveUser(email, password, name, uid)) location.href = "login.html";
     };
+
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const uidInput = document.getElementById("uid");
   </script>
 </body>
 </html>

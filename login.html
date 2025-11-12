@@ -1,130 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>N3X0 ID - Login</title>
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: radial-gradient(circle at center, #0e0e0e, #000);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .card {
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 30px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    }
-    .card h2 {
-      margin-bottom: 10px;
-      font-size: 1.8rem;
-    }
-    .input-group {
-      text-align: left;
-      margin: 12px 0;
-    }
-    .input-group label {
-      display: block;
-      font-size: 0.9rem;
-      margin-bottom: 6px;
-    }
-    .input-group input {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-    }
-    button {
-      margin-top: 15px;
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 6px;
-      background: linear-gradient(90deg, #0ff, #0cf);
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      opacity: 0.9;
-    }
-    .footer-text {
-      margin-top: 12px;
-      font-size: 0.9rem;
-    }
-    .footer-text a {
-      color: #0ff;
-      text-decoration: none;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - N3X0 ID</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="auth.js"></script>
 </head>
 <body>
   <div class="card">
-    <h2 id="title">Login</h2>
-    <p id="subtitle">Access your N3X0 ID</p>
-
-    <div class="input-group">
-      <label id="emailLabel">Email</label>
-      <input type="email" id="email" />
-    </div>
-    <div class="input-group">
-      <label id="passwordLabel">Password</label>
-      <input type="password" id="password" />
-    </div>
-
+    <h2>Login</h2>
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
     <button id="loginBtn">Login</button>
-
-    <div class="footer-text">
-      <span id="noAccount">Don't have an account?</span>
-      <a href="signup.html">Sign up</a>
-    </div>
+    <button onclick="location.href='register.html'">Create account</button>
   </div>
 
   <script>
-    const lang = navigator.language.startsWith("es") ? "es" : "en";
-    const t = {
-      en: {
-        title: "Login",
-        subtitle: "Access your N3X0 ID",
-        email: "Email",
-        password: "Password",
-        login: "Login",
-        noAccount: "Don't have an account?",
-      },
-      es: {
-        title: "Iniciar Sesión",
-        subtitle: "Accede a tu N3X0 ID",
-        email: "Correo electrónico",
-        password: "Contraseña",
-        login: "Entrar",
-        noAccount: "¿No tienes una cuenta?",
-      },
+    document.getElementById("loginBtn").onclick = () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      if (loginUser(email, password)) {
+        alert("Login successful!");
+        location.href = "t.html";
+      }
     };
-    const text = t[lang];
-    document.getElementById("title").textContent = text.title;
-    document.getElementById("subtitle").textContent = text.subtitle;
-    document.getElementById("emailLabel").textContent = text.email;
-    document.getElementById("passwordLabel").textContent = text.password;
-    document.getElementById("loginBtn").textContent = text.login;
-    document.getElementById("noAccount").textContent = text.noAccount;
 
-    document.getElementById("loginBtn").addEventListener("click", () => {
-      alert(lang === "es" ? "Inicio de sesión exitoso (modo demo)" : "Login successful (demo mode)");
-      window.location.href = "t.html";
-    });
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
   </script>
 </body>
 </html>
