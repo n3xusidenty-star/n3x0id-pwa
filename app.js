@@ -1,31 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Variable de prueba: si el casco ya está registrado
-    // Cambiar a true para simular casco registrado
-    let cascoRegistrado = false;
-
-    const tutorial = document.getElementById('tutorial');
-    const infoCliente = document.getElementById('info-cliente');
-
-    if(cascoRegistrado){
-        // Mostrar info del cliente, ocultar tutorial
-        tutorial.style.display = 'none';
-        infoCliente.style.display = 'block';
-    } else {
-        // Mostrar tutorial, ocultar info del cliente
-        tutorial.style.display = 'block';
-        infoCliente.style.display = 'none';
-    }
-
-    // Eventos de botones (ejemplo mínimo)
-    document.getElementById('ver-perfil').addEventListener('click', function() {
-        alert('Ver perfil completo (simulación)');
-    });
-
-    document.getElementById('modo-emergencia').addEventListener('click', function() {
-        alert('Modo emergencia activado (simulación)');
-    });
-
-    document.getElementById('actualizar-info').addEventListener('click', function() {
-        alert('Actualizar información (simulación)');
-    });
-});
+const t = {
+  en: {
+    welcome: "Welcome to N3X0 ID!",
+    setup: "Let's set up your smart helmet in 3 quick steps:",
+    create: "Create Account",
+    registered: "Helmet Registered",
+    token: "Helmet ID:",
+    add: "Add to Contacts",
+    emergency: "Emergency Mode",
+    edit: "Edit / Update Info"
+  },
+  es: {
+    welcome: "¡Bienvenido a N3X0 ID!",
+    setup: "Configura tu casco inteligente en solo 3 pasos:",
+    create: "Crear cuenta",
+    registered: "Casco registrado",
+    token: "ID del casco:",
+    add: "Agregar a contactos",
+    emergency: "Modo emergencia",
+    edit: "Editar / Actualizar información"
+  }
+};
