@@ -1,33 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - N3X0 ID</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="auth.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>N3X0 ID - Login</title>
+  <style>
+    /* Reset básico */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      padding: 30px 40px;
+      border-radius: 18px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+      max-width: 420px;
+      width: 100%;
+      margin-top: 60px;
+    }
+
+    h2 {
+      font-size: 1.8em;
+      margin-bottom: 15px;
+    }
+
+    p {
+      margin-bottom: 20px;
+      font-size: 1em;
+      color: #ccc;
+    }
+
+    input {
+      display: block;
+      width: 90%;
+      margin: 10px auto;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1em;
+    }
+
+    button {
+      margin: 15px 0;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #00e1ff, #00ffa6);
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+      font-size: 1em;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    a {
+      color: #00e1ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <div class="card">
     <h2>Login</h2>
-    <input id="email" type="email" placeholder="Email" />
-    <input id="password" type="password" placeholder="Password" />
-    <button id="loginBtn">Login</button>
-    <button onclick="location.href='register.html'">Create account</button>
+    <p>Enter your credentials to access your helmet info:</p>
+    <input type="email" placeholder="Email" id="email" />
+    <input type="password" placeholder="Password" id="password" />
+    <button onclick="loginUser()">Login</button>
+    <p>Don't have an account? <a href="register.html">Create Account</a></p>
   </div>
 
   <script>
-    document.getElementById("loginBtn").onclick = () => {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
-      if (loginUser(email, password)) {
-        alert("Login successful!");
-        location.href = "t.html";
-      }
-    };
+    function loginUser() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
 
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
+      if (!email || !password) {
+        alert("Please enter both email and password.");
+        return;
+      }
+
+      const stored = localStorage.getItem("n3x0_user");
+      if (!stored) {
+        alert("No account found. Please register first.");
+        location.href = "register.html";
+        return;
+      }
+
+      const user = JSON.parse(stored);
+
+      if (user.email === email && user.password === password) {
+        alert("Login successful!");
+        // Redirige a pantalla de casco registrado, usando un token de prueba
+        location.href = `t.html?firstTime=false&token=`;
+      } else {
+        alert("Incorrect email or password.");
+      }
+    }
   </script>
 </body>
 </html>
