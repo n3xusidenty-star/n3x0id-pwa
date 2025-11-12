@@ -1,8 +1,7 @@
 {
   "chips": [
     {"uid": "04A5EC434F6181", "secret": "ABC123"},
-    {"uid": "04A5EC434F6182", "secret": "DEF456"},
-    {"uid": "04A5EC434F6183", "secret": "GHI789"}
+    {"uid": "04A5EC434F6182", "secret": "DEF456"}
   ],
   "users": [
     {

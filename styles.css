@@ -20,16 +20,17 @@ body {
   box-shadow: 0 4px 30px rgba(0,0,0,0.4);
   max-width: 420px;
   margin-bottom: 20px;
+  position: relative;
 }
 
 h2, p {
   margin: 10px 0;
 }
 
-input, textarea {
-  width: 100%;
-  padding: 10px;
+input {
   margin: 8px 0;
+  padding: 10px;
+  width: 100%;
   border-radius: 6px;
   border: none;
 }
@@ -48,10 +49,4 @@ button {
 
 button:hover {
   transform: scale(1.05);
-}
-
-video {
-  width: 100%;
-  border-radius: 10px;
-  margin: 20px 0;
 }

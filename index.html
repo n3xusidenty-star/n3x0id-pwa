@@ -1,101 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>N3X0 ID - Helmet Scan</title>
-<style>
-  body {
-    font-family: "Poppins", sans-serif;
-    background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    margin: 0;
-    text-align: center;
-    padding: 20px;
-  }
-  .card {
-    background: rgba(255,255,255,0.08);
-    padding: 30px 40px;
-    border-radius: 18px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-    max-width: 420px;
-    margin-bottom: 20px;
-  }
-  h2, p {
-    margin: 10px 0;
-  }
-  button {
-    margin: 10px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(90deg, #00e1ff, #00ffa6);
-    color: #000;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  button:hover { transform: scale(1.05); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N3X0 ID - Helmet Scan</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="content" class="card"></div>
-
-<script>
-window.onload = function() {
-  const lang = navigator.language.startsWith("es") ? "es" : "en";
-  const t = {
-    en: {
-      welcome: "Welcome to N3X0 ID!",
-      setup: "Let's set up your smart helmet in 3 quick steps:",
-      create: "Create Account",
-      enterCode: "Enter your helmet secret code:"
-    },
-    es: {
-      welcome: "¡Bienvenido a N3X0 ID!",
-      setup: "Configura tu casco inteligente en solo 3 pasos:",
-      create: "Crear cuenta",
-      enterCode: "Ingresa el código secreto de tu casco:"
-    }
-  };
-  
-  const txt = t[lang];
-  const content = document.getElementById("content");
-
-  // Simulación de lectura UID del chip
-  const uid = new URLSearchParams(window.location.search).get("uid") || "";
-
-  if(!uid) {
-    content.innerHTML = `<h2></h2>
-                         <p>No UID detected. Please scan your helmet NFC.</p>`;
-    return;
-  }
-
-  // Solicitar código secreto
-  let secret = prompt(txt.enterCode);
-
-  // Simulación de validación
-  const validChips = {
-    "04A5EC434F6181": "ABC123", // ejemplo UID + código secreto
-    "1234567890ABCD": "XYZ987"
-  };
-
-  if(validChips[uid] && validChips[uid] === secret) {
-    // UID + código válido → crear perfil
-    content.innerHTML = `<h2></h2>
-                         <p></p>
-                         <button onclick="location.href='t.html?uid='"></button>`;
-  } else {
-    content.innerHTML = `<h2>Error</h2>
-                         <p>Invalid UID or secret code.</p>`;
-  }
-};
-</script>
+  <script src="auth.js"></script>
 </body>
 </html>
