@@ -58,10 +58,10 @@
   </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const isFirst = params.get("firstTime") === "true";
-    const token = params.get("token");
+    // Detecta idioma
     const lang = navigator.language.startsWith("es") ? "es" : "en";
+
+    // Textos bilingües
     const t = {
       en: {
         welcome: "Welcome to N3X0 ID!",
@@ -85,10 +85,23 @@
       }
     };
 
+    // Detecta parámetros de la URL
+    const params = new URLSearchParams(window.location.search);
+    const isFirst = params.get("firstTime") === "true";
+    const token = params.get("token");
+
     const content = document.getElementById("content");
     const txt = t[lang];
 
-    if (isFirst) {
+    // Si no hay parámetros, muestra pantalla por defecto
+    if (!params.toString()) {
+      content.innerHTML = `
+        <h2></h2>
+        <p></p>
+        <video controls src="tutorial.mp4"></video>
+        <button onclick="location.href='index.html'"></button>
+      `;
+    } else if (isFirst) {
       content.innerHTML = `
         <h2></h2>
         <p></p>
