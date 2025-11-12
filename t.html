@@ -43,41 +43,46 @@
   </style>
 </head>
 <body>
-  <div class="card" id="content"></div>
+  <div class="card" id="content">
+    <!-- Texto cargará aquí -->
+  </div>
 
   <script>
-    const lang = navigator.language.startsWith("es") ? "es" : "en";
+    window.onload = function() {
+      const lang = navigator.language.startsWith("es") ? "es" : "en";
 
-    const t = {
-      en: {
-        registered: "Helmet Registered",
-        token: "Helmet ID:",
-        add: "Add to Contacts",
-        emergency: "Emergency Mode",
-        edit: "Edit / Update Info"
-      },
-      es: {
-        registered: "Casco registrado",
-        token: "ID del casco:",
-        add: "Agregar a contactos",
-        emergency: "Modo emergencia",
-        edit: "Editar / Actualizar información"
-      }
+      const t = {
+        en: {
+          registered: "Helmet Registered",
+          token: "Helmet ID:",
+          add: "Add to Contacts",
+          emergency: "Emergency Mode",
+          edit: "Edit / Update Info"
+        },
+        es: {
+          registered: "Casco registrado",
+          token: "ID del casco:",
+          add: "Agregar a contactos",
+          emergency: "Modo emergencia",
+          edit: "Editar / Actualizar información"
+        }
+      };
+
+      const txt = t[lang];
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get("token") || "N/A";
+
+      const content = document.getElementById("content");
+
+      // Carga del contenido
+      content.innerHTML = `
+        <h2></h2>
+        <p> </p>
+        <button onclick="alert('')"></button>
+        <button onclick="alert('')"></button>
+        <button onclick="alert('')"></button>
+      `;
     };
-
-    const txt = t[lang];
-
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token") || "N/A";
-
-    const content = document.getElementById("content");
-    content.innerHTML = `
-      <h2></h2>
-      <p> </p>
-      <button onclick="alert('')"></button>
-      <button onclick="alert('')"></button>
-      <button onclick="alert('')"></button>
-    `;
   </script>
 </body>
 </html>
