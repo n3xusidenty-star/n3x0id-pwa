@@ -1,48 +1,117 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>N3X0 ID - PWA</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>N3X0 ID - Helmet Scan</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      overflow: hidden;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 30px 40px;
+      border-radius: 18px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      max-width: 420px;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    button {
+      margin: 10px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #00e1ff, #00ffa6);
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    video {
+      width: 100%;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-  <div id="app">
-    <h1>Bienvenido a N3X0 ID</h1>
-
-    <!-- Tutorial primer cliente -->
-    <div id="tutorial">
-      <p>Este es un tutorial breve para el primer cliente.</p>
-      <ol>
-        <li>Escanea el casco con tu teléfono.</li>
-        <li>Crea tu usuario y contraseña.</li>
-        <li>Ingresa tus datos de contacto y médicos.</li>
-      </ol>
-      <video src="tutorial.mp4" controls width="300"></video>
-    </div>
-
-    <!-- Información del cliente (se muestra después del registro) -->
-    <div id="info-cliente" style="display:none;">
-      <button id="ver-perfil">Ver perfil completo</button>
-      <button id="modo-emergencia">Modo emergencia</button>
-      <button id="actualizar-info">Actualizar información</button>
-    </div>
+  <div class="card" id="content">
+    <h2>Loading...</h2>
   </div>
 
-  <script src="app.js"></script>
   <script>
-    // Ejemplo simple de detección de idioma del navegador
-    const userLang = navigator.language || navigator.userLanguage;
-    if(userLang.startsWith('en')){
-      document.querySelector('h1').textContent = 'Welcome to N3X0 ID';
-      document.querySelector('#tutorial p').textContent = 'This is a short tutorial for first-time users.';
-      document.querySelector('#tutorial li:nth-child(1)').textContent = 'Scan the helmet with your phone.';
-      document.querySelector('#tutorial li:nth-child(2)').textContent = 'Create your username and password.';
-      document.querySelector('#tutorial li:nth-child(3)').textContent = 'Enter your contact and medical info.';
-      document.querySelector('#ver-perfil').textContent = 'View full profile';
-      document.querySelector('#modo-emergencia').textContent = 'Emergency mode';
-      document.querySelector('#actualizar-info').textContent = 'Update info';
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+      // Detecta idioma
+      const lang = navigator.language.startsWith("es") ? "es" : "en";
+
+      // Textos bilingües
+      const t = {
+        en: {
+          welcome: "Welcome to N3X0 ID!",
+          setup: "Let's set up your smart helmet in 3 quick steps:",
+          create: "Create Account",
+          registered: "Helmet Registered",
+          token: "Helmet ID:",
+          add: "Add to Contacts",
+          emergency: "Emergency Mode",
+          edit: "Edit / Update Info"
+        },
+        es: {
+          welcome: "¡Bienvenido a N3X0 ID!",
+          setup: "Configura tu casco inteligente en solo 3 pasos:",
+          create: "Crear cuenta",
+          registered: "Casco registrado",
+          token: "ID del casco:",
+          add: "Agregar a contactos",
+          emergency: "Modo emergencia",
+          edit: "Editar / Actualizar información"
+        }
+      };
+
+      // Detecta parámetros de la URL
+      const params = new URLSearchParams(window.location.search);
+      const isFirst = params.get("firstTime") === "true";
+      const token = params.get("token");
+
+      const content = document.getElementById("content");
+      const txt = t[lang];
+
+      // Lógica de renderizado
+      if (!params.toString() || isFirst) {
+        content.innerHTML = `
+          <h2></h2>
+          <p></p>
+          <video controls src="tutorial.mp4"></video>
+          <button onclick="location.href='index.html'"></button>
+        `;
+      } else {
+        content.innerHTML = `
+          <h2></h2>
+          <p> </p>
+          <button onclick="alert('')"></button>
+          <button onclick="alert('')"></button>
+          <button onclick="location.href='index.html'"></button>
+        `;
+      }
+    });
   </script>
 </body>
 </html>
