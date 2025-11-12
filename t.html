@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>N3X0 ID - Tutorial</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>N3X0 ID - Helmet Scan</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
@@ -27,13 +27,12 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
-      z-index: 2;
       position: relative;
+      z-index: 2;
     }
 
     h2, p {
       margin: 10px 0;
-      color: #fff;
     }
 
     button {
@@ -52,84 +51,121 @@
       transform: scale(1.05);
     }
 
+    .video-wrapper {
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+      margin-bottom: 20px;
+      z-index: 1;
+    }
+
     video {
       width: 100%;
       border-radius: 10px;
-      margin: 20px 0;
-      display: none;
+      display: none; /* oculto por defecto */
     }
   </style>
 </head>
 <body>
   <div id="content" class="card"></div>
-  <video id="tutorialVideo" controls src="tutorial.mp4"></video>
+  <div class="video-wrapper">
+    <video controls id="tutorialVideo" src="tutorial.mp4"></video>
+  </div>
 
   <script>
     window.onload = function() {
       const lang = navigator.language.startsWith("es") ? "es" : "en";
-
       const t = {
         en: {
           welcome: "Welcome to N3X0 ID!",
-          setup: "Follow this quick tutorial to set up your smart helmet:",
+          setup: "Let's set up your smart helmet in 3 quick steps:",
           create: "Create Account",
-          skip: "Skip Tutorial"
+          skip: "Skip Tutorial",
+          registered: "Helmet Registered",
+          token: "Helmet ID:",
+          add: "Add to Contacts",
+          emergency: "Emergency Mode",
+          edit: "Edit / Update Info",
+          continue: "Continue"
         },
         es: {
           welcome: "¡Bienvenido a N3X0 ID!",
-          setup: "Sigue este breve tutorial para configurar tu casco inteligente:",
-          create: "Crear Cuenta",
-          skip: "Saltar Tutorial"
+          setup: "Configura tu casco inteligente en solo 3 pasos:",
+          create: "Crear cuenta",
+          skip: "Saltar tutorial",
+          registered: "Casco registrado",
+          token: "ID del casco:",
+          add: "Agregar a contactos",
+          emergency: "Modo emergencia",
+          edit: "Editar / Actualizar información",
+          continue: "Continuar"
         }
       };
 
       const params = new URLSearchParams(window.location.search);
       const isFirst = params.get("firstTime") === "true";
       const showVideo = params.get("showVideo") === "true";
+      const token = params.get("token") || "N/A";
+      const txt = t[lang];
 
       const content = document.getElementById("content");
       const video = document.getElementById("tutorialVideo");
-      const txt = t[lang];
 
-      // Limpiar contenido
-      content.innerHTML = "";
+      content.innerHTML = '';
 
       if (isFirst) {
-        // Primer registro: mostrar tutorial
-        const h2 = document.createElement("h2");
+        // Pantalla de primer registro
+        const h2 = document.createElement('h2');
         h2.textContent = txt.welcome;
 
-        const p = document.createElement("p");
+        const p = document.createElement('p');
         p.textContent = txt.setup;
 
-        const btnCreate = document.createElement("button");
+        const btnCreate = document.createElement('button');
         btnCreate.textContent = txt.create;
-        btnCreate.onclick = () => location.href = "register.html";
+        btnCreate.onclick = () => location.href='register.html';
 
-        const btnSkip = document.createElement("button");
+        const btnSkip = document.createElement('button');
         btnSkip.textContent = txt.skip;
-        btnSkip.onclick = () => location.href = "index.html?firstTime=false";
+        btnSkip.onclick = () => location.href='index.html?firstTime=false';
 
         content.appendChild(h2);
         content.appendChild(p);
         content.appendChild(btnCreate);
         content.appendChild(btnSkip);
 
+        // Mostrar video solo aquí
         if (showVideo) {
-          video.style.display = "block";
+          video.style.display = 'block';
         }
       } else {
-        // Ya registrado: mostrar pantalla de casco registrado
-        const h2 = document.createElement("h2");
-        h2.textContent = lang === "es" ? "Casco registrado" : "Helmet Registered";
+        // Pantalla casco registrado
+        const h2 = document.createElement('h2');
+        h2.textContent = txt.registered;
 
-        const btnNext = document.createElement("button");
-        btnNext.textContent = lang === "es" ? "Continuar" : "Continue";
-        btnNext.onclick = () => location.href = "index.html?firstTime=false";
+        const p = document.createElement('p');
+        p.textContent = ` `;
+
+        const btnAdd = document.createElement('button');
+        btnAdd.textContent = txt.add;
+        btnAdd.onclick = () => alert(txt.add);
+
+        const btnEmergency = document.createElement('button');
+        btnEmergency.textContent = txt.emergency;
+        btnEmergency.onclick = () => alert(txt.emergency);
+
+        const btnEdit = document.createElement('button');
+        btnEdit.textContent = txt.edit;
+        btnEdit.onclick = () => location.href='index.html?firstTime=false';
 
         content.appendChild(h2);
-        content.appendChild(btnNext);
-        video.style.display = "none";
+        content.appendChild(p);
+        content.appendChild(btnAdd);
+        content.appendChild(btnEmergency);
+        content.appendChild(btnEdit);
+
+        // Asegurar que el video no se muestre
+        video.style.display = 'none';
       }
     };
   </script>
