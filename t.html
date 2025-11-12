@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>N3X0 ID - Helmet Scan</title>
 <style>
   body {
@@ -18,6 +18,7 @@
     text-align: center;
     padding: 20px;
   }
+
   .card {
     background: rgba(255,255,255,0.08);
     padding: 30px 40px;
@@ -27,10 +28,12 @@
     max-width: 420px;
     margin-bottom: 20px;
   }
+
   h2, p {
     color: #fff;
     margin: 10px 0;
   }
+
   button {
     margin: 10px;
     padding: 12px 24px;
@@ -40,16 +43,20 @@
     color: #000;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
+
   button:hover {
     transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   }
+
   video {
     max-width: 100%;
     border-radius: 10px;
-    margin: 0 auto 20px;
-    display: block;
+    margin: 20px auto;
+    display: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
 </style>
 </head>
@@ -57,14 +64,14 @@
   <!-- Contenedor para texto y botones -->
   <div id="content" class="card"></div>
 
-  <!-- Video fuera del div para evitar bloqueo en móviles -->
-  <video controls src="tutorial.mp4"></video>
+  <!-- Video separado, activable por parámetro -->
+  <video controls src="tutorial.mp4" id="tutorialVideo"></video>
 
   <script>
     window.onload = function() {
-      var lang = navigator.language.startsWith("es") ? "es" : "en";
+      const lang = navigator.language.startsWith("es") ? "es" : "en";
 
-      var t = {
+      const t = {
         en: {
           welcome: "Welcome to N3X0 ID!",
           setup: "Let's set up your smart helmet in 3 quick steps:",
@@ -87,26 +94,33 @@
         }
       };
 
-      var params = new URLSearchParams(window.location.search);
-      var isFirst = params.get("firstTime") === "true";
-      var token = params.get("token");
-      var content = document.getElementById("content");
-      var txt = t[lang];
+      const params = new URLSearchParams(window.location.search);
+      const isFirst = params.get("firstTime") === "true";
+      const showVideo = isFirst; // Video solo para primer cliente
+      const token = params.get("token");
+      const content = document.getElementById("content");
+      const video = document.getElementById("tutorialVideo");
+      const txt = t[lang];
 
       if (!params.toString() || isFirst) {
-        // Primer cliente: texto y botón
+        // Primer cliente
         content.innerHTML =
-          "<h2>" + txt.welcome + "</h2>" +
-          "<p>" + txt.setup + "</p>" +
-          "<button onclick=\"location.href='index.html'\">" + txt.create + "</button>";
+          `<h2></h2>
+           <p></p>
+           <button onclick="location.href='index.html'"></button>`;
       } else {
         // Casco registrado
         content.innerHTML =
-          "<h2>" + txt.registered + "</h2>" +
-          "<p>" + txt.token + " " + (token || "N/A") + "</p>" +
-          "<button onclick=\"alert('" + txt.add + "')\">" + txt.add + "</button>" +
-          "<button onclick=\"alert('" + txt.emergency + "')\">" + txt.emergency + "</button>" +
-          "<button onclick=\"location.href='index.html'\">" + txt.edit + "</button>";
+          `<h2></h2>
+           <p> </p>
+           <button onclick="alert('')"></button>
+           <button onclick="alert('')"></button>
+           <button onclick="location.href='index.html'"></button>`;
+      }
+
+      // Activar video solo para primer cliente
+      if (showVideo) {
+        video.style.display = "block";
       }
     };
   </script>
