@@ -1,35 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>N3X0 ID - Welcome</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>N3X0 ID - Smart Helmet</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      padding: 40px 50px;
+      border-radius: 18px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+      max-width: 420px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #cfd8ff;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      margin: 10px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #00e1ff, #00ffa6);
+      color: #000;
+      font-weight: 600;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      width: 80%;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,255,255,0.4);
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 0.85em;
+      color: #aaa;
+    }
+  </style>
 </head>
 <body>
-  <div id="content" class="card"></div>
-  <video controls src="tutorial.mp4" id="tutorialVideo" class="card"></video>
+  <div class="card">
+    <h1>Welcome to N3X0 ID</h1>
+    <p>Turn your safety helmet into a smart ID with NFC + QR.</p>
 
-  <script src="app.js"></script>
-  <script>
-    window.onload = function() {
-      const lang = navigator.language.startsWith("es") ? "es" : "en";
-      const txt = t[lang];
+    <button class="btn" onclick="location.href='register.html'">Create Account</button>
+    <button class="btn" onclick="location.href='login.html'">Login</button>
 
-      const params = new URLSearchParams(window.location.search);
-      const firstTime = params.get("firstTime") === "true";
-      const video = document.getElementById("tutorialVideo");
-      const content = document.getElementById("content");
-
-      if(firstTime) {
-        content.innerHTML = `<h2></h2>
-                             <p></p>
-                             <button onclick="location.href='register.html?uid='"></button>`;
-        video.style.display = 'block';
-      } else {
-        location.href = `t.html?uid=`;
-      }
-    };
-  </script>
+    <div class="footer">© 2025 N3X0 ID — Smart Helmet Platform</div>
+  </div>
 </body>
 </html>
