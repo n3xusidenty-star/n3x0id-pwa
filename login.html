@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N3X0 ID - Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="card">
+    <h2>Login to Update</h2>
+    <form id="loginForm">
+      <input type="text" placeholder="Email" id="email" required>
+      <input type="password" placeholder="Password" id="password" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    window.onload = function() {
+      const params = new URLSearchParams(window.location.search);
+      const uid = params.get("uid");
+      const form = document.getElementById("loginForm");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const stored = JSON.parse(localStorage.getItem(uid));
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        if(stored && stored.email === email && stored.password === password){
+          // Permitir editar datos
+          const updated = prompt("Enter new phone or medical info (JSON format {phone:'', medical:''})");
+          if(updated){
+            const upd = JSON.parse(updated);
+            stored.phone = upd.phone || stored.phone;
+            stored.medical = upd.medical || stored.medical;
+            localStorage.setItem(uid, JSON.stringify(stored));
+            alert("Data updated!");
+            location.href = `t.html?uid=`;
+          }
+        } else {
+          alert("Invalid credentials!");
+        }
+      });
+    };
+  </script>
+</body>
+</html>
