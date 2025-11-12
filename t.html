@@ -9,10 +9,12 @@
 <body>
 <div class="card">
   <div class="card-content" id="content"></div>
-  <video controls id="tutorialVideo" style="display:none; margin-top:20px; border-radius:10px;"></video>
 </div>
 
 <script>
+// Simulación de base de datos de UID ya registrados
+const registeredUIDs = ["04A224B68C5580"]; // ejemplo de UID ya registrado
+
 document.addEventListener("DOMContentLoaded", function() {
   // Detectar idioma del dispositivo
   const lang = navigator.language.startsWith("es") ? "es" : "en";
@@ -40,18 +42,15 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   };
 
-  const params = new URLSearchParams(window.location.search);
-  const isFirst = params.get("firstTime") === "true";
-  const showVideo = params.get("showVideo") === "true";
-  const token = params.get("token") || "N/A";
   const txt = t[lang];
 
+  const params = new URLSearchParams(window.location.search);
+  const uid = params.get("uid") || "N/A";
   const content = document.getElementById("content");
-  const video = document.getElementById("tutorialVideo");
 
   content.innerHTML = '';
 
-  if (!params.toString() || isFirst) {
+  if (!registeredUIDs.includes(uid)) {
     // Primer cliente
     const h2 = document.createElement('h2');
     h2.textContent = txt.welcome;
@@ -61,24 +60,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const btn = document.createElement('button');
     btn.textContent = txt.create;
-    btn.onclick = () => location.href='index.html';
+    btn.onclick = () => alert("Aquí se lanzaría la creación de cuenta");
 
     content.appendChild(h2);
     content.appendChild(p);
     content.appendChild(btn);
-
-    if (showVideo) {
-      video.src = "tutorial.mp4";
-      video.style.display = "block";
-    }
-
   } else {
     // Casco registrado
     const h2 = document.createElement('h2');
     h2.textContent = txt.registered;
 
     const p = document.createElement('p');
-    p.textContent = txt.token + ' ' + token;
+    p.textContent = txt.token + ' ' + uid;
 
     const btnAdd = document.createElement('button');
     btnAdd.textContent = txt.add;
@@ -90,16 +83,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const btnEdit = document.createElement('button');
     btnEdit.textContent = txt.edit;
-    btnEdit.onclick = () => location.href='index.html';
+    btnEdit.onclick = () => alert("Aquí se abriría el formulario de edición");
 
     content.appendChild(h2);
     content.appendChild(p);
     content.appendChild(btnAdd);
     content.appendChild(btnEmergency);
     content.appendChild(btnEdit);
-
-    // Video oculto en modo casco registrado
-    video.style.display = 'none';
   }
 });
 </script>
