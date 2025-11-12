@@ -1,79 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>N3X0 ID - Registered Helmet</title>
-<style>
-  body {
-    font-family: "Poppins", sans-serif;
-    background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    margin: 0;
-    text-align: center;
-    padding: 20px;
-  }
-  .card {
-    background: rgba(255,255,255,0.08);
-    padding: 30px 40px;
-    border-radius: 18px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-    max-width: 420px;
-    margin-bottom: 20px;
-  }
-  button {
-    margin: 10px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(90deg, #00e1ff, #00ffa6);
-    color: #000;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  button:hover { transform: scale(1.05); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N3X0 ID - Tutorial</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at 30% 20%, #121b2f, #0a0f1c);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      padding: 30px 40px;
+      border-radius: 18px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+      max-width: 420px;
+      margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
+    }
+
+    h2, p {
+      margin: 10px 0;
+      color: #fff;
+    }
+
+    button {
+      margin: 10px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #00e1ff, #00ffa6);
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      margin: 20px 0;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-<div id="content" class="card"></div>
+  <div id="content" class="card"></div>
+  <video id="tutorialVideo" controls src="tutorial.mp4"></video>
 
-<script>
-window.onload = function() {
-  const lang = navigator.language.startsWith("es") ? "es" : "en";
-  const t = {
-    en: {
-      registered: "Helmet Registered",
-      token: "Helmet ID:",
-      add: "Add to Contacts",
-      emergency: "Emergency Mode",
-      edit: "Edit / Update Info"
-    },
-    es: {
-      registered: "Casco registrado",
-      token: "ID del casco:",
-      add: "Agregar a contactos",
-      emergency: "Modo emergencia",
-      edit: "Editar / Actualizar información"
-    }
-  };
-  const txt = t[lang];
-  const params = new URLSearchParams(window.location.search);
-  const uid = params.get("uid") || "N/A";
+  <script>
+    window.onload = function() {
+      const lang = navigator.language.startsWith("es") ? "es" : "en";
 
-  const content = document.getElementById("content");
-  content.innerHTML = `<h2></h2>
-                       <p> </p>
-                       <button onclick="alert('')"></button>
-                       <button onclick="alert('')"></button>
-                       <button onclick="location.href='index.html'"></button>`;
-};
-</script>
+      const t = {
+        en: {
+          welcome: "Welcome to N3X0 ID!",
+          setup: "Follow this quick tutorial to set up your smart helmet:",
+          create: "Create Account",
+          skip: "Skip Tutorial"
+        },
+        es: {
+          welcome: "¡Bienvenido a N3X0 ID!",
+          setup: "Sigue este breve tutorial para configurar tu casco inteligente:",
+          create: "Crear Cuenta",
+          skip: "Saltar Tutorial"
+        }
+      };
+
+      const params = new URLSearchParams(window.location.search);
+      const isFirst = params.get("firstTime") === "true";
+      const showVideo = params.get("showVideo") === "true";
+
+      const content = document.getElementById("content");
+      const video = document.getElementById("tutorialVideo");
+      const txt = t[lang];
+
+      // Limpiar contenido
+      content.innerHTML = "";
+
+      if (isFirst) {
+        // Primer registro: mostrar tutorial
+        const h2 = document.createElement("h2");
+        h2.textContent = txt.welcome;
+
+        const p = document.createElement("p");
+        p.textContent = txt.setup;
+
+        const btnCreate = document.createElement("button");
+        btnCreate.textContent = txt.create;
+        btnCreate.onclick = () => location.href = "register.html";
+
+        const btnSkip = document.createElement("button");
+        btnSkip.textContent = txt.skip;
+        btnSkip.onclick = () => location.href = "index.html?firstTime=false";
+
+        content.appendChild(h2);
+        content.appendChild(p);
+        content.appendChild(btnCreate);
+        content.appendChild(btnSkip);
+
+        if (showVideo) {
+          video.style.display = "block";
+        }
+      } else {
+        // Ya registrado: mostrar pantalla de casco registrado
+        const h2 = document.createElement("h2");
+        h2.textContent = lang === "es" ? "Casco registrado" : "Helmet Registered";
+
+        const btnNext = document.createElement("button");
+        btnNext.textContent = lang === "es" ? "Continuar" : "Continue";
+        btnNext.onclick = () => location.href = "index.html?firstTime=false";
+
+        content.appendChild(h2);
+        content.appendChild(btnNext);
+        video.style.display = "none";
+      }
+    };
+  </script>
 </body>
 </html>
