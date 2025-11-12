@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>N3X0 ID - Profile</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>N3X0 ID - Helmet Profile</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
@@ -18,6 +18,7 @@
       text-align: center;
       padding: 20px;
     }
+
     .card {
       background: rgba(255,255,255,0.08);
       padding: 30px 40px;
@@ -26,10 +27,14 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
     }
+
     h2, p {
       margin: 10px 0;
     }
+
     button {
       margin: 10px;
       padding: 12px 24px;
@@ -41,6 +46,7 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
+
     button:hover {
       transform: scale(1.05);
     }
@@ -48,16 +54,63 @@
 </head>
 <body>
   <div class="card" id="content">
-    <h2>Casco registrado</h2>
-    <p id="token">ID del casco: </p>
-    <button onclick="alert('Agregar a contactos')">Agregar a contactos</button>
-    <button onclick="alert('Modo emergencia')">Modo emergencia</button>
-    <button onclick="location.href='index.html'">Editar / Actualizar info</button>
+    <!-- Contenido generado dinámicamente -->
   </div>
 
   <script>
-    const uid = new URLSearchParams(window.location.search).get("uid");
-    document.getElementById("token").textContent = "ID del casco: " + (uid || "N/A");
+    window.onload = async function() {
+      const uid = new URLSearchParams(window.location.search).get('uid');
+      if(!uid) {
+        alert('UID not found / UID no encontrado');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const response = await fetch('data.json');
+      const data = await response.json();
+      const user = data.users.find(u => u.uid === uid);
+
+      const txt = {
+        en: {
+          registered: "Helmet Registered",
+          token: "Helmet ID:",
+          add: "Add to Contacts",
+          emergency: "Emergency Mode",
+          edit: "Edit / Update Info",
+          back: "Back"
+        },
+        es: {
+          registered: "Casco registrado",
+          token: "ID del casco:",
+          add: "Agregar a contactos",
+          emergency: "Modo emergencia",
+          edit: "Editar / Actualizar información",
+          back: "Volver"
+        }
+      };
+
+      const lang = navigator.language.startsWith("es") ? "es" : "en";
+      const t = txt[lang];
+
+      const content = document.getElementById('content');
+      if(!user) {
+        content.innerHTML = `<h2></h2>
+                             <p> </p>
+                             <p>User not registered / Usuario no registrado</p>
+                             <button onclick="window.location.href='index.html?uid='"></button>`;
+        return;
+      }
+
+      content.innerHTML = `<h2></h2>
+                           <p> </p>
+                           <p>Name / Nombre: </p>
+                           <p>Email: </p>
+                           <p>Phone / Teléfono: </p>
+                           <p>Emergency Info / Información médica: </p>
+                           <button onclick="alert('')"></button>
+                           <button onclick="alert('')"></button>
+                           <button onclick="window.location.href='index.html?uid='"></button>`;
+    }
   </script>
 </body>
 </html>

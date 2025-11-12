@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>N3X0 ID - Login</title>
   <style>
     body {
@@ -26,16 +26,24 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
     }
-    input, button {
-      width: 100%;
+    h2, p {
       margin: 10px 0;
-      padding: 12px;
-      border-radius: 8px;
+    }
+    input {
+      margin: 8px 0;
+      padding: 10px;
+      width: 100%;
+      border-radius: 6px;
       border: none;
-      font-size: 1em;
     }
     button {
+      margin: 10px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
       background: linear-gradient(90deg, #00e1ff, #00ffa6);
       color: #000;
       font-weight: 600;
@@ -49,29 +57,39 @@
 </head>
 <body>
   <div class="card">
-    <h2>Login</h2>
-    <input type="text" id="uid" placeholder="UID del chip">
-    <input type="text" id="secret" placeholder="Código secreto">
-    <button onclick="loginUser()">Ingresar</button>
+    <h2>Login / Iniciar sesión</h2>
+    <form id="loginForm">
+      <input type="text" id="secret" placeholder="Secret Code / Código secreto" required />
+      <button type="submit">Login / Ingresar</button>
+    </form>
+    <p><a href="index.html">Back / Volver</a></p>
   </div>
 
   <script>
-    function loginUser() {
-      const uidInput = document.getElementById("uid").value;
-      const secretInput = document.getElementById("secret").value;
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const uid = new URLSearchParams(window.location.search).get('uid');
+      const secretInput = document.getElementById('secret').value;
 
-      fetch('data.json')
-        .then(r => r.json())
-        .then(data => {
-          const user = data.users.find(u => u.uid === uidInput && u.secret === secretInput);
-          if(user) {
-            alert("Login exitoso!");
-            location.href = `t.html?uid=`;
-          } else {
-            alert("UID o código secreto incorrecto.");
-          }
-        });
-    }
+      const response = await fetch('data.json');
+      const data = await response.json();
+
+      const chip = data.chips.find(c => c.uid === uid && c.secret === secretInput);
+      if(!chip) { 
+        alert('Invalid UID or Secret / UID o código inválido'); 
+        return; 
+      }
+
+      const user = data.users.find(u => u.uid === uid);
+      if(!user) {
+        alert('User not registered / Usuario no registrado');
+        window.location.href = `index.html?uid=`;
+        return;
+      }
+
+      window.location.href = `t.html?uid=`;
+    });
   </script>
 </body>
 </html>
