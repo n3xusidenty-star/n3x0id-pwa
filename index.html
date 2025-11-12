@@ -26,10 +26,10 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
     }
-    h2, p { margin: 10px 0; }
+    h2, p {
+      margin: 10px 0;
+    }
     button {
       margin: 10px;
       padding: 12px 24px;
@@ -41,35 +41,55 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
-    button:hover { transform: scale(1.05); }
+    button:hover {
+      transform: scale(1.05);
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: none;
+    }
   </style>
 </head>
 <body>
-  <div id="content" class="card"></div>
+  <div class="card" id="content"></div>
 
   <script>
     const lang = navigator.language.startsWith("es") ? "es" : "en";
+
     const t = {
       en: {
         welcome: "Welcome to N3X0 ID!",
-        setup: "Register your smart helmet in 3 quick steps",
-        create: "Create Account"
+        setup: "Register your smart helmet",
+        create: "Create Account",
+        name: "Full Name",
+        email: "Email",
+        phone: "Phone",
+        secret: "Secret Code"
       },
       es: {
         welcome: "¡Bienvenido a N3X0 ID!",
-        setup: "Registra tu casco inteligente en 3 pasos",
-        create: "Crear cuenta"
+        setup: "Registra tu casco inteligente",
+        create: "Crear cuenta",
+        name: "Nombre completo",
+        email: "Correo electrónico",
+        phone: "Teléfono",
+        secret: "Código secreto"
       }
     };
+
     const txt = t[lang];
 
-    const params = new URLSearchParams(window.location.search);
-    const isFirst = params.get("firstTime") === "true";
     const content = document.getElementById("content");
-
     content.innerHTML = `
       <h2></h2>
       <p></p>
+      <input type="text" id="name" placeholder="">
+      <input type="email" id="email" placeholder="">
+      <input type="tel" id="phone" placeholder="">
+      <input type="text" id="secret" placeholder="">
       <button onclick="location.href='register.html'"></button>
     `;
   </script>

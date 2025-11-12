@@ -26,18 +26,13 @@
       box-shadow: 0 4px 30px rgba(0,0,0,0.4);
       max-width: 420px;
       margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
     }
-    input, button {
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      width: 100%;
-      font-size: 1em;
-    }
+    h2, p { margin: 10px 0; }
     button {
+      margin: 10px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
       background: linear-gradient(90deg, #00e1ff, #00ffa6);
       color: #000;
       font-weight: 600;
@@ -45,31 +40,42 @@
       transition: transform 0.2s;
     }
     button:hover { transform: scale(1.05); }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: none;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2 id="title"></h2>
-    <input type="text" id="uid" placeholder="UID" />
-    <input type="text" id="secret" placeholder="" />
-    <button id="loginBtn"></button>
-  </div>
+  <div class="card" id="content"></div>
 
   <script>
     const lang = navigator.language.startsWith("es") ? "es" : "en";
+
     const t = {
-      en: { login:"Login", secret:"Secret Code" },
-      es: { login:"Iniciar sesión", secret:"Código secreto" }
+      en: {
+        title: "Login to N3X0 ID",
+        submit: "Login",
+        secret: "Secret Code"
+      },
+      es: {
+        title: "Iniciar sesión en N3X0 ID",
+        submit: "Entrar",
+        secret: "Código secreto"
+      }
     };
+
     const txt = t[lang];
 
-    document.getElementById("title").textContent = txt.login;
-    document.getElementById("secret").placeholder = txt.secret;
-    document.getElementById("loginBtn").textContent = txt.login;
-
-    document.getElementById("loginBtn").onclick = () => {
-      alert(txt.login + " - Logic placeholder");
-    };
+    const content = document.getElementById("content");
+    content.innerHTML = `
+      <h2></h2>
+      <input type="text" id="secret" placeholder="">
+      <button onclick="alert('Logged in!')"></button>
+    `;
   </script>
 </body>
 </html>
